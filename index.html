@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpyWords | Undercover Wortspiel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fredoka+One&display=swap');
+
+    :root {
+      --primary: #6C5CE7;
+      --primary-dark: #5649C0;
+      --secondary: #00CEFF;
+      --danger: #FF4757;
+      --success: #2ED573;
+      --dark: #2D3436;
+      --light: #F5F6FA;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2D3436 0%, #000000 100%);
+      color: var(--light);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    /* Container Stile */
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 40px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeInUp 0.8s ease-out;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(108, 92, 231, 0.1) 0%, transparent 70%);
+      z-index: -1;
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Typografie */
+    h1, h2, h3 {
+      font-family: 'Fredoka One', cursive;
+      color: var(--secondary);
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(0, 206, 255, 0.3);
+    }
+
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.5rem; }
+
+    p {
+      margin-bottom: 15px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Formularelemente */
+    label {
+      display: block;
+      margin: 15px 0 8px;
+      font-weight: 600;
+      color: var(--secondary);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 12px;
+      border: 2px solid rgba(108, 92, 231, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    /* Dropdown Stile */
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 20px;
+    }
+
+    select option {
+      background: #2D3436;
+      color: white;
+      padding: 10px;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+    }
+
+    .namenliste {
+      max-height: 200px;
+      overflow-y: auto;
+      margin: 15px 0;
+      padding-right: 10px;
+    }
+
+    /* Spieler Eingabezeile */
+    .spieler-eingabe {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+      position: relative;
+    }
+
+    .spieler-eingabe input {
+      margin: 0;
+      padding-left: 40px;
+      flex-grow: 1;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .spieler-emoji {
+      position: absolute;
+      left: 12px;
+      font-size: 1.2rem;
+      pointer-events: none;
+    }
+
+    .spieler-aktionen {
+      display: flex;
+      margin-left: 10px;
+    }
+
+    .aktion-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      width: auto;
+      padding: 0;
+      margin: 0 0 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+
+    .aktion-btn:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .aktion-btn.bearbeiten:hover {
+      color: var(--secondary);
+    }
+
+    .aktion-btn.loeschen:hover {
+      color: var(--danger);
+    }
+
+    /* Buttons */
+    button {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(108, 92, 231, 0.5);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button.danger {
+      background: linear-gradient(135deg, var(--danger), #E84118);
+      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+    }
+
+    button.danger:hover {
+      box-shadow: 0 8px 25px rgba(255, 71, 87, 0.5);
+    }
+
+    button.success {
+      background: linear-gradient(135deg, var(--success), #1DD1A1);
+      box-shadow: 0 4px 15px rgba(46, 213, 115, 0.4);
+    }
+
+    button.success:hover {
+      box-shadow: 0 8px 25px rgba(46, 213, 115, 0.5);
+    }
+
+    /* Karten-Design */
+    .karte-container {
+      perspective: 1000px;
+      margin: 40px auto;
+      width: 100%;
+      max-width: 350px;
+      height: 220px;
+      position: relative;
+    }
+
+    .karte {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      cursor: pointer;
+      transform-origin: center bottom;
+    }
+
+    .karte.angehoben {
+      transform: rotateX(20deg) translateY(-40px);
+    }
+
+    .karte-innenseite {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+      padding: 25px;
+      box-sizing: border-box;
+      background: var(--card-bg);
+      color: var(--dark);
+    }
+
+    .karte-vorderseite {
+      background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+      transform: rotateY(0deg);
+      color: white;
+    }
+
+    .karte-rueckseite {
+      background: white;
+      transform: rotateY(180deg);
+    }
+
+    .karte.umgedreht {
+      transform: rotateY(180deg);
+    }
+
+    .karte.umgedreht.angehoben {
+      transform: rotateY(180deg) rotateX(20deg) translateY(-40px);
+    }
+
+    .spielername {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-align: center;
+      color: inherit;
+    }
+
+    .karten-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .karten-anweisung {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .karte-rueckseite .karten-icon {
+      color: var(--primary);
+    }
+
+    .karte-rueckseite .spielername {
+      color: var(--dark);
+    }
+
+    /* Spezielle Zustände */
+    .imposter-karte .karte-rueckseite {
+      background: linear-gradient(135deg, #FF4757, #FF6B81);
+      color: white;
+    }
+
+    .imposter-karte .karte-rueckseite .spielername,
+    .imposter-karte .karte-rueckseite .karten-icon {
+      color: white;
+    }
+
+    /* Animationen */
+    @keyframes cardReveal {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Timer Animation */
+    .timer {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 20px 0;
+      text-align: center;
+      color: var(--secondary);
+      text-shadow: 0 0 10px rgba(0, 206, 255, 0.5);
+    }
+
+    .timer.puls {
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); text-shadow: 0 0 10px rgba(0, 206, 255, 0.5); }
+      to { transform: scale(1.05); text-shadow: 0 0 20px rgba(0, 206, 255, 0.8); }
+    }
+
+    /* Imposter Liste */
+    #imposterListe {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    #imposterListe li {
+      background: linear-gradient(135deg, #FF4757, #E84118);
+      margin: 15px auto;
+      padding: 15px;
+      border-radius: 12px;
+      width: 80%;
+      animation: fadeIn 0.5s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+    }
+
+    #imposterListe li span {
+      margin-left: 10px;
+      font-size: 1.2rem;
+    }
+
+    /* Intro Screen */
+    #introScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #2D3436 0%, #000000 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 1000;
+      animation: fadeIn 0.8s ease-out;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #introScreen h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #00CEFF, #6C5CE7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+    }
+
+    #introScreen p {
+      font-size: 1.2rem;
+      max-width: 500px;
+      margin-bottom: 30px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    #introScreen button {
+      width: auto;
+      padding: 18px 36px;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      margin-top: 30px;
+      background: linear-gradient(135deg, #6C5CE7, #00CEFF);
+      box-shadow: 0 8px 25px rgba(108, 92, 231, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    #introScreen button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(108, 92, 231, 0.7);
+    }
+
+    /* Responsive Anpassungen */
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px;
+        border-radius: 16px;
+      }
+
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.7rem; }
+      h3 { font-size: 1.3rem; }
+
+      #introScreen h1 {
+        font-size: 2.5rem;
+      }
+
+      .karte-container {
+        height: 200px;
+      }
+    }
+
+    /* Versteckte Elemente */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Partikel Hintergrund */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+
+<div id="introScreen">
+  <h1 class="float-animation">SPYWORDS</h1>
+  <p>Das aufregende Undercover-Wortspiel, bei dem jeder jemand anderes sein könnte...</p>
+  <button onclick="starteIntro()">Spiel starten</button>
+</div>
+
+<div class="container hidden" id="setup">
+  <h2>SPIEL EINRICHTEN</h2>
+  
+  <label for="spielerAnzahl">SPIELERANZAHL</label>
+  <input type="number" id="spielerAnzahl" min="3" max="30" value="5" onchange="zeigeNamensEingabe()">
+  
+  <div id="namenContainer" class="namenliste"></div>
+
+  <label for="imposterAnzahl">IMPOSTER ANZAHL</label>
+  <input type="number" id="imposterAnzahl" min="1" max="6" value="1">
+
+  <label for="spielzeit">SPIELZEIT (MINUTEN)</label>
+  <input type="number" id="spielzeit" min="3" max="30" value="5">
+
+  <label for="kategorie">KATEGORIE</label>
+  <select id="kategorie">
+    <option value="alle">Alle Kategorien</option>
+    <option value="tiere">Tiere</option>
+    <option value="orte">Standorte</option>
+    <option value="objekte">Objekte</option>
+    <option value="länder">Länder</option>
+    <option value="essen">Essen</option>
+    <option value="sport">Sportarten</option>
+    <option value="filme">Filme</option>
+  </select>
+
+  <button onclick="spielStarten()">SPIEL STARTEN</button>
+</div>
+
+<div class="container hidden" id="kartenContainer">
+  <h3 id="spielerText"></h3>
+  
+  <div class="karte-container">
+    <div class="karte" id="spielkarte" onclick="toggleKarte()" ontouchstart="startTouch(this)" ontouchend="endTouch(this)">
+      <div class="karte-innenseite karte-vorderseite">
+        <div class="karten-icon">🕵️</div>
+        <div class="spielername" id="kartenSpielername"></div>
+        <div class="karten-anweisung">Klicken oder berühren zum Aufdecken</div>
+      </div>
+      <div class="karte-innenseite karte-rueckseite">
+        <div class="karten-icon" id="kartenSymbol"></div>
+        <div class="spielername" id="kartenInhalt"></div>
+      </div>
+    </div>
+  </div>
+  
+  <button id="weiterBtn" class="hidden success" onclick="naechsterSpieler()">WEITERGEBEN</button>
+</div>
+
+<div class="container hidden" id="spielRunde">
+  <h2>ZEIT LÄUFT!</h2>
+  <div class="timer" id="timerAnzeige"></div>
+  <p id="anfangSpieler"></p>
+  <button class="danger" onclick="spielBeenden()">SPIEL BEENDEN</button>
+</div>
+
+<div class="container hidden" id="endScreen">
+  <h2>SPIEL ENDE</h2>
+  <p>Die Undercover-Agenten waren:</p>
+  <ul id="imposterListe"></ul>
+  <button onclick="neueRunde()">NEUE RUNDE</button>
+</div>
+
+<script>
+  // Datenbank der Wörter
+  const woerter = {
+    tiere: ["Hund", "Katze", "Elefant", "Panda", "Löwe", "Pinguin", "Delfin", "Schildkröte", "Fuchs", "Pferd", "Koala", "Eule", "Adler", "Faultier", "Blauwal", "Chamäleon", "Giraffe", "Oktopus", "Papagei", "Schmetterling", "Krokodil", "Grizzlybär", "Alpaka"],
+    orte: ["Schule", "Zug", "Kino", "Universität", "Flughafen", "Bar", "Cafe", "Zirkus", "Garage", "Krankenhaus", "Sekretariat", "Park", "Parken", "Flugzeug", "Schwimmbad", "Schiff", "Theater", "Friseurladen", "Vergnügungspark", "Restaurant", "Gefängnis", "Bücherei", "Museum", "Hotel", "Stadion", "Bahnhof", "Einkaufszentrum", "Kirche", "Supermarkt", "Fitnessstudio", "Nagelstudio", "Gewächshaus", "Zoo", "Bäckerei", "Bank", "Apotheke", "Haus", "Labyrinth", "Ausstellung", "Post", "Polizeistation", "Bauerhof", "Nachtclub"],
+    objekte: ["Stift", "Tisch", "Telefon", "Buch", "Lampe", "Uhr", "Schlüssel", "Brille", "Geldbeutel", "Kamera", "Regenbogen", "Kunststoff", "Kasten", "Seil", "Rasierapparat", "Vakuum", "Regenschirm", "Rahmen", "Sessel", "Pult", "Taste", "Statue", "Bett", "Baum", "Feuer", "Boden", "Wasser", "Luft", "Stein", "Glas", "Feuerzeug", "Handy", "Tuch", "Sonne", "Sonnensystem", "Himmel", "Wolke", "Stern", "Satellit", "Sauerstoff", "Regen", "Blitz", "Sturm"],
+    länder: ["Deutschland", "Frankreich", "Spain", "Italien", "Japan", "Brasilien", "Kanada", "Australien", "Südafrika", "Afghanistan", "Argentinien", "Aserbaidschan", "Belgien", "China", "Ägypten", "Island", "Indien", "Indonesien", "Iran", "Malaysia", "Mexiko", "Pakistan", "Russland", "Saudi-Arabien", "Südkorea"],
+    essen: ["Pizza", "Sushi", "Brot", "Pasta", "Salat", "Burger", "Eis", "Schokolade", "Käse", "Butter Chicken", "Curry", "Döner Kebab", "Falafel", "Fish and Chips", "Gulasch", "Gyros", "Lasagne", "Paella", "Ramen", "Sauerbraten", "Tacos "],
+    sport: ["Fußball", "Tennis", "Basketball", "Schwimmen", "Laufen", "Radfahren", "Boxen", "Golf", "Skateboard", "American Football", "Badminton", "Baseball", "Cricket", "Eishockey", "Fechten", "Formel 1", "Golf", "Handball", "Judo", "Leichtathletik", "Klettern", "Surfen", "Schach", "Skifahren", "Ringen"],
+    filme: ["Titanic", "Avatar", "Inception", "Jurassic Park", "Star Wars", "Harry Potter", "Der Pate", "Forrest Gump", "Avengers", "Batman", "Der Herr der Ringe", "Der König der Löwen", "Der weiße Hai", "Gladiator", "Rocky", "Shrek", "Spider-Man", "Toy Story", "Twilight"]
+  };
+
+  // Emoji-Sets für verschiedene Kategorien
+  const emojiSets = {
+    default: ["👨", "👩", "🧔", "👵", "👴", "🧑", "👧", "👦", "👨‍🦰", "👩‍🦰", "👨‍🦳", "👩‍🦳"],
+    tiere: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮"],
+    orte: ["🏠", "🏢", "🏣", "🏤", "🏥", "🏦", "🏨", "🏩", "🏪", "🏫", "🏬", "🏭"],
+    essen: ["🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🍈", "🍒", "🍑"]
+  };
+  
+  // Spielvariablen
+  let spieler = [], aktuelleKarte = 0, geheimWort = "", namen = [], imposterIndizes = [], timerIntervall;
+  let currentEmojiSet = 'default';
+
+  // Partikel-Effekt initialisieren
+  function initParticles() {
+    const container = document.getElementById('particles');
+    const particleCount = window.innerWidth < 600 ? 30 : 50;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      
+      // Zufällige Position und Größe
+      const size = Math.random() * 5 + 2;
+      const posX = Math.random() * window.innerWidth;
+      const posY = Math.random() * window.innerHeight;
+      const opacity = Math.random() * 0.5 + 0.1;
+      const animationDuration = Math.random() * 20 + 10;
+      const delay = Math.random() * 5;
+      
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${posX}px`;
+      particle.style.top = `${posY}px`;
+      particle.style.opacity = opacity;
+      particle.style.animation = `float ${animationDuration}s ease-in-out ${delay}s infinite`;
+      
+      container.appendChild(particle);
+    }
+  }
+
+  // Intro starten
+  function starteIntro() {
+    document.getElementById("introScreen").style.display = "none";
+    document.getElementById("setup").classList.remove("hidden");
+    initParticles();
+    ladeSettings();
+  }
+
+  // Namenseingabe anzeigen
+  function zeigeNamensEingabe() {
+    const anzahl = parseInt(document.getElementById("spielerAnzahl").value);
+    const container = document.getElementById("namenContainer");
+    container.innerHTML = "";
+    
+    for (let i = 0; i < anzahl; i++) {
+      const spielerDiv = document.createElement('div');
+      spielerDiv.className = 'spieler-eingabe';
+      
+      const emojiSpan = document.createElement('span');
+      emojiSpan.className = 'spieler-emoji';
+      emojiSpan.textContent = emojiSets.default[Math.floor(Math.random() * emojiSets.default.length)];
+      
+      const input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = `Spieler ${i + 1}`;
+      input.id = `spielerName${i}`;
+      if (localStorage.getItem(`spielerName${i}`)) {
+        input.value = localStorage.getItem(`spielerName${i}`);
+      }
+      
+      const aktionenDiv = document.createElement('div');
+      aktionenDiv.className = 'spieler-aktionen';
+      
+      const bearbeitenBtn = document.createElement('button');
+      bearbeitenBtn.className = 'aktion-btn bearbeiten';
+      bearbeitenBtn.innerHTML = '✏️';
+      bearbeitenBtn.title = 'Namen bearbeiten';
+      bearbeitenBtn.onclick = function() {
+        input.focus();
+      };
+      
+      const loeschenBtn = document.createElement('button');
+      loeschenBtn.className = 'aktion-btn loeschen';
+      loeschenBtn.innerHTML = '🗑️';
+      loeschenBtn.title = 'Spieler entfernen';
+      loeschenBtn.onclick = function() {
+        if (confirm(`${input.value || `Spieler ${i + 1}`} wirklich entfernen?`)) {
+          spielerDiv.remove();
+          // Spieleranzahl aktualisieren
+          document.getElementById("spielerAnzahl").value = anzahl - 1;
+          // Falls nötig, Imposter-Anzahl anpassen
+          if (parseInt(document.getElementById("imposterAnzahl").value) > anzahl - 1) {
+            document.getElementById("imposterAnzahl").value = anzahl - 1;
+          }
+        }
+      };
+      
+      aktionenDiv.appendChild(bearbeitenBtn);
+      aktionenDiv.appendChild(loeschenBtn);
+      
+      spielerDiv.appendChild(emojiSpan);
+      spielerDiv.appendChild(input);
+      spielerDiv.appendChild(aktionenDiv);
+      
+      container.appendChild(spielerDiv);
+    }
+  }
+
+  // Zufälliges Wort auswählen
+  function zufaelligesWort(kategorie) {
+    if (kategorie === "alle") {
+      const alles = Object.values(woerter).flat();
+      return alles[Math.floor(Math.random() * alles.length)];
+    }
+    const liste = woerter[kategorie];
+    return liste[Math.floor(Math.random() * liste.length)];
+  }
+
+  // Spiel starten
+  function spielStarten() {
+    const anzahlInputs = document.querySelectorAll('#namenContainer input').length;
+    if (anzahlInputs < 3) {
+      alert('Mindestens 3 Spieler benötigt!');
+      return;
+    }
+    
+    const anzahl = anzahlInputs;
+    const imposter = parseInt(document.getElementById("imposterAnzahl").value);
+    const kategorie = document.getElementById("kategorie").value;
+    geheimWort = zufaelligesWort(kategorie);
+    namen = [];
+    
+    // Emoji-Set basierend auf Kategorie auswählen
+    currentEmojiSet = emojiSets[kategorie] || emojiSets.default;
+
+    // Spielernamen sammeln
+    const inputs = document.querySelectorAll('#namenContainer input');
+    inputs.forEach(input => {
+      const name = input.value || `Spieler ${namen.length + 1}`;
+      namen.push(name);
+      localStorage.setItem(`spielerName${namen.length - 1}`, name);
+    });
+
+    // Spieler und Imposter initialisieren
+    spieler = Array(anzahl).fill(geheimWort);
+    imposterIndizes = [];
+    
+    while (imposterIndizes.length < imposter) {
+      const index = Math.floor(Math.random() * anzahl);
+      if (!imposterIndizes.includes(index)) {
+        spieler[index] = "Imposter";
+        imposterIndizes.push(index);
+      }
+    }
+
+    aktuelleKarte = 0;
+    document.getElementById("setup").classList.add("hidden");
+    document.getElementById("kartenContainer").classList.remove("hidden");
+    document.getElementById("weiterBtn").classList.add("hidden");
+    document.getElementById("spielerText").textContent = `${namen[aktuelleKarte]}`;
+    
+    // Karte zurücksetzen
+    const karte = document.getElementById("spielkarte");
+    karte.classList.remove("umgedreht", "angehoben", "imposter-karte");
+    document.getElementById("kartenSpielername").textContent = namen[aktuelleKarte];
+    document.getElementById("kartenInhalt").textContent = "";
+    document.getElementById("kartenSymbol").textContent = "";
+    
+    // Zufälliges Emoji für die Karte
+    const randomEmoji = currentEmojiSet[Math.floor(Math.random() * currentEmojiSet.length)];
+    document.querySelector(".karte-vorderseite .karten-icon").textContent = randomEmoji;
+    
+    speichereSettings();
+  }
+
+  // Karte umdrehen
+  function toggleKarte() {
+    const karte = document.getElementById("spielkarte");
+    if (!karte.classList.contains("umgedreht")) {
+      // Karte umdrehen und Inhalt anzeigen
+      karte.classList.add("umgedreht");
+      
+      const wort = spieler[aktuelleKarte];
+      const istImposter = wort === "Imposter";
+      
+      if (istImposter) {
+        karte.classList.add("imposter-karte");
+        document.getElementById("kartenInhalt").textContent = "UNDERCOVER AGENT!";
+        document.getElementById("kartenSymbol").textContent = "🕵️";
+      } else {
+        document.getElementById("kartenInhalt").textContent = wort;
+        document.getElementById("kartenSymbol").textContent = "🔍";
+      }
+      
+      // Weiter-Button nach Verzögerung anzeigen
+      setTimeout(() => {
+        document.getElementById("weiterBtn").classList.remove("hidden");
+      }, 500);
+    }
+  }
+
+  // Touch-Events für Mobile
+  function startTouch(element) {
+    if (!element.classList.contains("umgedreht")) {
+      element.classList.add("angehoben");
+    }
+  }
+
+  function endTouch(element) {
+    element.classList.remove("angehoben");
+  }
+
+  // Zum nächsten Spieler
+  function naechsterSpieler() {
+    const karte = document.getElementById("spielkarte");
+    karte.classList.remove("umgedreht", "angehoben", "imposter-karte");
+    
+    aktuelleKarte++;
+    document.getElementById("weiterBtn").classList.add("hidden");
+    
+    if (aktuelleKarte < spieler.length) {
+      document.getElementById("spielerText").textContent = `${namen[aktuelleKarte]}`;
+      document.getElementById("kartenSpielername").textContent = namen[aktuelleKarte];
+      document.getElementById("kartenInhalt").textContent = "";
+      document.getElementById("kartenSymbol").textContent = "";
+      
+      // Neues zufälliges Emoji für die nächste Karte
+      const randomEmoji = currentEmojiSet[Math.floor(Math.random() * currentEmojiSet.length)];
+      document.querySelector(".karte-vorderseite .karten-icon").textContent = randomEmoji;
+    } else {
+      document.getElementById("kartenContainer").classList.add("hidden");
+      starteSpielRunde();
+    }
+  }
+
+  // Spielrunde starten
+  function starteSpielRunde() {
+    document.getElementById("spielRunde").classList.remove("hidden");
+    const spielzeit = parseInt(document.getElementById("spielzeit").value);
+    let sekunden = spielzeit * 60;
+    const zufall = namen[Math.floor(Math.random() * namen.length)];
+    document.getElementById("anfangSpieler").textContent = `🎤 ${zufall} beginnt das Spiel!`;
+    const anzeige = document.getElementById("timerAnzeige");
+
+    // Timer aktualisieren
+    updateTimer(anzeige, sekunden);
+    
+    timerIntervall = setInterval(() => {
+      sekunden--;
+      updateTimer(anzeige, sekunden);
+      
+      if (sekunden < 0) {
+        clearInterval(timerIntervall);
+        anzeige.textContent = "⏰ ZEIT ABGELAUFEN!";
+        anzeige.classList.remove("puls");
+      }
+    }, 1000);
+  }
+
+  // Timer aktualisieren
+  function updateTimer(element, sekunden) {
+    const min = Math.floor(sekunden / 60);
+    const sec = sekunden % 60;
+    element.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+    
+    // Letzte 30 Sekunden: Puls-Effekt
+    if (sekunden <= 30) {
+      element.classList.add("puls");
+    }
+  }
+
+  // Spiel beenden
+  function spielBeenden() {
+    clearInterval(timerIntervall);
+    document.getElementById("spielRunde").classList.add("hidden");
+    const liste = document.getElementById("imposterListe");
+    liste.innerHTML = "";
+    
+    imposterIndizes.forEach(i => {
+      const li = document.createElement("li");
+      li.innerHTML = `${namen[i]} <span>${currentEmojiSet[Math.floor(Math.random() * currentEmojiSet.length)]}</span>`;
+      liste.appendChild(li);
+    });
+    
+    document.getElementById("endScreen").classList.remove("hidden");
+  }
+
+  // Neue Runde starten
+  function neueRunde() {
+    document.getElementById("endScreen").classList.add("hidden");
+    document.getElementById("setup").classList.remove("hidden");
+    zeigeNamensEingabe();
+  }
+
+  // Einstellungen speichern
+  function speichereSettings() {
+    const settings = {
+      spielerAnzahl: document.getElementById("spielerAnzahl").value,
+      imposterAnzahl: document.getElementById("imposterAnzahl").value,
+      spielzeit: document.getElementById("spielzeit").value,
+      kategorie: document.getElementById("kategorie").value
+    };
+    
+    // Spielernamen speichern
+    const inputs = document.querySelectorAll('#namenContainer input');
+    inputs.forEach((input, index) => {
+      settings[`spielerName${index}`] = input.value;
+    });
+    
+    localStorage.setItem("spywords_settings", JSON.stringify(settings));
+  }
+
+  // Einstellungen laden
+  function ladeSettings() {
+    const data = JSON.parse(localStorage.getItem("spywords_settings"));
+    if (data) {
+      document.getElementById("spielerAnzahl").value = data.spielerAnzahl;
+      document.getElementById("imposterAnzahl").value = data.imposterAnzahl;
+      document.getElementById("spielzeit").value = data.spielzeit;
+      document.getElementById("kategorie").value = data.kategorie;
+    }
+    zeigeNamensEingabe();
+    
+    // Spielernamen laden
+    if (data) {
+      const inputs = document.querySelectorAll('#namenContainer input');
+      inputs.forEach((input, index) => {
+        if (data[`spielerName${index}`]) {
+          input.value = data[`spielerName${index}`];
+        }
+      });
+    }
+  }
+
+  // Initialisierung
+  document.addEventListener("DOMContentLoaded", function() {
+    // Zufälliges Emoji für die erste Karte
+    const randomEmoji = emojiSets.default[Math.floor(Math.random() * emojiSets.default.length)];
+    if (document.querySelector(".karte-vorderseite .karten-icon")) {
+      document.querySelector(".karte-vorderseite .karten-icon").textContent = randomEmoji;
+    }
+  });
+</script>
+</body>
+</html>
