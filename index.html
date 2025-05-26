@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SpyWords | Undercover Wortspiel</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fredoka+One&display=swap');
@@ -24,6 +24,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -36,6 +37,7 @@
       justify-content: center;
       padding: 20px;
       line-height: 1.6;
+      touch-action: manipulation;
     }
 
     /* Container Stile */
@@ -44,7 +46,7 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-radius: 24px;
-      padding: 40px;
+      padding: 30px;
       width: 100%;
       max-width: 600px;
       box-shadow: var(--card-shadow);
@@ -92,6 +94,7 @@
     p {
       margin-bottom: 15px;
       color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
     }
 
     /* Formularelemente */
@@ -115,13 +118,11 @@
       font-size: 16px;
       transition: var(--transition);
       outline: none;
+      -webkit-appearance: none;
     }
 
     /* Dropdown Stile */
     select {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
       background-repeat: no-repeat;
       background-position: right 15px center;
@@ -144,6 +145,7 @@
       overflow-y: auto;
       margin: 15px 0;
       padding-right: 10px;
+      -webkit-overflow-scrolling: touch;
     }
 
     /* Spieler Eingabezeile */
@@ -220,6 +222,8 @@
       box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
       position: relative;
       overflow: hidden;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     button:hover {
@@ -252,7 +256,7 @@
     /* Karten-Design */
     .karte-container {
       perspective: 1000px;
-      margin: 40px auto;
+      margin: 30px auto;
       width: 100%;
       max-width: 350px;
       height: 220px;
@@ -267,6 +271,7 @@
       transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       cursor: pointer;
       transform-origin: center bottom;
+      -webkit-touch-callout: none;
     }
 
     .karte.angehoben {
@@ -328,6 +333,7 @@
       color: rgba(255, 255, 255, 0.8);
       margin-top: 10px;
       font-style: italic;
+      text-align: center;
     }
 
     .karte-rueckseite .karten-icon {
@@ -462,10 +468,11 @@
     }
 
     /* Responsive Anpassungen */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .container {
         padding: 25px;
         border-radius: 16px;
+        max-width: 95%;
       }
 
       h1 { font-size: 2rem; }
@@ -478,6 +485,60 @@
 
       .karte-container {
         height: 200px;
+        max-width: 300px;
+      }
+      
+      .karte-innenseite {
+        padding: 20px;
+      }
+      
+      .karten-icon {
+        font-size: 2.5rem;
+      }
+      
+      .spielername {
+        font-size: 1.1rem;
+      }
+      
+      .karten-anweisung {
+        font-size: 0.8rem;
+      }
+      
+      button {
+        padding: 14px 20px;
+        font-size: 0.95rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      .container {
+        padding: 20px;
+      }
+      
+      #introScreen h1 {
+        font-size: 2rem;
+      }
+      
+      #introScreen p {
+        font-size: 1rem;
+        max-width: 90%;
+      }
+      
+      #introScreen button {
+        padding: 16px 30px;
+        font-size: 1rem;
+      }
+      
+      .karte-container {
+        height: 180px;
+      }
+      
+      .namenliste {
+        max-height: 150px;
       }
     }
 
@@ -502,6 +563,32 @@
       background: rgba(255, 255, 255, 0.5);
       border-radius: 50%;
       pointer-events: none;
+    }
+    
+    /* Touch-Optimierungen */
+    input, select, button, .karte {
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* iPad spezifische Anpassungen */
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+      .container {
+        max-width: 80%;
+      }
+      
+      .karte-container {
+        height: 250px;
+        max-width: 400px;
+      }
+      
+      .karten-icon {
+        font-size: 3.5rem;
+      }
+      
+      button {
+        padding: 18px 28px;
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
@@ -551,7 +638,7 @@
       <div class="karte-innenseite karte-vorderseite">
         <div class="karten-icon">🕵️</div>
         <div class="spielername" id="kartenSpielername"></div>
-        <div class="karten-anweisung">Klicken oder berühren zum Aufdecken</div>
+        <div class="karten-anweisung">Berühren zum Aufdecken</div>
       </div>
       <div class="karte-innenseite karte-rueckseite">
         <div class="karten-icon" id="kartenSymbol"></div>
@@ -635,6 +722,7 @@
     document.getElementById("setup").classList.remove("hidden");
     initParticles();
     ladeSettings();
+    zeigeNamensEingabe();
   }
 
   // Namenseingabe anzeigen
@@ -910,7 +998,6 @@
       document.getElementById("spielzeit").value = data.spielzeit;
       document.getElementById("kategorie").value = data.kategorie;
     }
-    zeigeNamensEingabe();
     
     // Spielernamen laden
     if (data) {
@@ -930,6 +1017,12 @@
     if (document.querySelector(".karte-vorderseite .karten-icon")) {
       document.querySelector(".karte-vorderseite .karten-icon").textContent = randomEmoji;
     }
+    
+    // Touch-Optimierungen für iOS
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    window.addEventListener('resize', () => {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    });
   });
 </script>
 </body>
