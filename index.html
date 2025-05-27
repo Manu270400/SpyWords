@@ -48,7 +48,7 @@
       border-radius: 24px;
       padding: 30px;
       width: 100%;
-      max-width: 600px;
+      max-width: 500px;
       box-shadow: var(--card-shadow);
       border: 1px solid rgba(255, 255, 255, 0.1);
       animation: fadeInUp 0.8s ease-out;
@@ -87,14 +87,14 @@
       text-shadow: 0 2px 10px rgba(0, 206, 255, 0.3);
     }
 
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    h3 { font-size: 1.5rem; }
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; }
+    h3 { font-size: 1.4rem; }
 
     p {
       margin-bottom: 15px;
       color: rgba(255, 255, 255, 0.8);
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     /* Formularelemente */
@@ -103,14 +103,14 @@
       margin: 15px 0 8px;
       font-weight: 600;
       color: var(--secondary);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     input, select {
       width: 100%;
-      padding: 15px 20px;
+      padding: 14px 18px;
       border-radius: 12px;
       border: 2px solid rgba(108, 92, 231, 0.3);
       background: rgba(255, 255, 255, 0.1);
@@ -118,11 +118,14 @@
       font-size: 16px;
       transition: var(--transition);
       outline: none;
-      -webkit-appearance: none;
+      font-size: 1rem;
     }
 
     /* Dropdown Stile */
     select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
       background-repeat: no-repeat;
       background-position: right 15px center;
@@ -188,8 +191,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 30px;
-      height: 30px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
     }
 
@@ -258,8 +261,8 @@
       perspective: 1000px;
       margin: 30px auto;
       width: 100%;
-      max-width: 350px;
-      height: 220px;
+      max-width: 320px;
+      height: 200px;
       position: relative;
     }
 
@@ -271,11 +274,10 @@
       transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       cursor: pointer;
       transform-origin: center bottom;
-      -webkit-touch-callout: none;
     }
 
     .karte.angehoben {
-      transform: rotateX(20deg) translateY(-40px);
+      transform: rotateX(20deg) translateY(-30px);
     }
 
     .karte-innenseite {
@@ -283,13 +285,13 @@
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      border-radius: 20px;
+      border-radius: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       box-shadow: var(--card-shadow);
-      padding: 25px;
+      padding: 20px;
       box-sizing: border-box;
       background: var(--card-bg);
       color: var(--dark);
@@ -311,11 +313,11 @@
     }
 
     .karte.umgedreht.angehoben {
-      transform: rotateY(180deg) rotateX(20deg) translateY(-40px);
+      transform: rotateY(180deg) rotateX(20deg) translateY(-30px);
     }
 
     .spielername {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       margin-bottom: 10px;
       text-align: center;
@@ -323,15 +325,15 @@
     }
 
     .karten-icon {
-      font-size: 3rem;
-      margin-bottom: 15px;
+      font-size: 2.5rem;
+      margin-bottom: 12px;
       transition: all 0.3s ease;
     }
 
     .karten-anweisung {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.8);
-      margin-top: 10px;
+      margin-top: 8px;
       font-style: italic;
       text-align: center;
     }
@@ -363,7 +365,7 @@
 
     @keyframes float {
       0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
       100% { transform: translateY(0px); }
     }
 
@@ -373,7 +375,7 @@
 
     /* Timer Animation */
     .timer {
-      font-size: 3rem;
+      font-size: 2.5rem;
       font-weight: 700;
       margin: 20px 0;
       text-align: center;
@@ -399,8 +401,8 @@
 
     #imposterListe li {
       background: linear-gradient(135deg, #FF4757, #E84118);
-      margin: 15px auto;
-      padding: 15px;
+      margin: 12px auto;
+      padding: 12px;
       border-radius: 12px;
       width: 80%;
       animation: fadeIn 0.5s ease-out;
@@ -413,7 +415,7 @@
 
     #imposterListe li span {
       margin-left: 10px;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     /* Intro Screen */
@@ -435,7 +437,7 @@
     }
 
     #introScreen h1 {
-      font-size: 3.5rem;
+      font-size: 2.8rem;
       margin-bottom: 20px;
       background: linear-gradient(135deg, #00CEFF, #6C5CE7);
       -webkit-background-clip: text;
@@ -445,7 +447,7 @@
     }
 
     #introScreen p {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       max-width: 500px;
       margin-bottom: 30px;
       color: rgba(255, 255, 255, 0.8);
@@ -453,8 +455,8 @@
 
     #introScreen button {
       width: auto;
-      padding: 18px 36px;
-      font-size: 1.2rem;
+      padding: 16px 32px;
+      font-size: 1.1rem;
       border-radius: 50px;
       margin-top: 30px;
       background: linear-gradient(135deg, #6C5CE7, #00CEFF);
@@ -468,77 +470,26 @@
     }
 
     /* Responsive Anpassungen */
-    @media (max-width: 768px) {
+    @media (max-width: 480px) {
       .container {
-        padding: 25px;
+        padding: 20px;
         border-radius: 16px;
-        max-width: 95%;
       }
 
       h1 { font-size: 2rem; }
-      h2 { font-size: 1.7rem; }
+      h2 { font-size: 1.6rem; }
       h3 { font-size: 1.3rem; }
 
       #introScreen h1 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
       }
 
-      .karte-container {
-        height: 200px;
-        max-width: 300px;
-      }
-      
-      .karte-innenseite {
-        padding: 20px;
-      }
-      
-      .karten-icon {
-        font-size: 2.5rem;
-      }
-      
-      .spielername {
-        font-size: 1.1rem;
-      }
-      
-      .karten-anweisung {
-        font-size: 0.8rem;
-      }
-      
-      button {
-        padding: 14px 20px;
-        font-size: 0.95rem;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      body {
-        padding: 10px;
-      }
-      
-      .container {
-        padding: 20px;
-      }
-      
-      #introScreen h1 {
-        font-size: 2rem;
-      }
-      
-      #introScreen p {
-        font-size: 1rem;
-        max-width: 90%;
-      }
-      
-      #introScreen button {
-        padding: 16px 30px;
-        font-size: 1rem;
-      }
-      
       .karte-container {
         height: 180px;
       }
       
-      .namenliste {
-        max-height: 150px;
+      button {
+        padding: 14px 20px;
       }
     }
 
@@ -565,30 +516,29 @@
       pointer-events: none;
     }
     
-    /* Touch-Optimierungen */
-    input, select, button, .karte {
-      -webkit-tap-highlight-color: transparent;
+    /* Touch Feedback */
+    .touch-feedback {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: scale(0);
+      pointer-events: none;
+      animation: touchEffect 0.6s ease-out;
     }
     
-    /* iPad spezifische Anpassungen */
-    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-      .container {
-        max-width: 80%;
+    @keyframes touchEffect {
+      to {
+        transform: scale(2);
+        opacity: 0;
       }
-      
-      .karte-container {
-        height: 250px;
-        max-width: 400px;
-      }
-      
-      .karten-icon {
-        font-size: 3.5rem;
-      }
-      
-      button {
-        padding: 18px 28px;
-        font-size: 1.1rem;
-      }
+    }
+    
+    /* Disable text selection */
+    .no-select {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
   </style>
 </head>
@@ -634,11 +584,11 @@
   <h3 id="spielerText"></h3>
   
   <div class="karte-container">
-    <div class="karte" id="spielkarte" onclick="toggleKarte()" ontouchstart="startTouch(this)" ontouchend="endTouch(this)">
+    <div class="karte no-select" id="spielkarte" onclick="toggleKarte()" ontouchstart="startTouch(this, event)" ontouchend="endTouch(this)">
       <div class="karte-innenseite karte-vorderseite">
         <div class="karten-icon">🕵️</div>
         <div class="spielername" id="kartenSpielername"></div>
-        <div class="karten-anweisung">Berühren zum Aufdecken</div>
+        <div class="karten-anweisung">Tippen zum Aufdecken</div>
       </div>
       <div class="karte-innenseite karte-rueckseite">
         <div class="karten-icon" id="kartenSymbol"></div>
@@ -687,10 +637,51 @@
   // Spielvariablen
   let spieler = [], aktuelleKarte = 0, geheimWort = "", namen = [], imposterIndizes = [], timerIntervall;
   let currentEmojiSet = 'default';
+  let sessionId = generateSessionId();
+  let sessionTimeout;
+
+  // Session ID generieren
+  function generateSessionId() {
+    return 'session-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+  }
+
+  // Session Storage Key generieren
+  function getSessionKey(key) {
+    return `${sessionId}-${key}`;
+  }
+
+  // Session nach 2 Stunden löschen
+  function setupSessionTimeout() {
+    // Clear existing timeout
+    if (sessionTimeout) {
+      clearTimeout(sessionTimeout);
+    }
+    
+    // Set new timeout (2 hours)
+    sessionTimeout = setTimeout(() => {
+      clearSessionData();
+    }, 2 * 60 * 60 * 1000);
+  }
+
+  // Session-Daten löschen
+  function clearSessionData() {
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith(sessionId)) {
+        keysToRemove.push(key);
+      }
+    }
+    
+    keysToRemove.forEach(key => {
+      localStorage.removeItem(key);
+    });
+  }
 
   // Partikel-Effekt initialisieren
   function initParticles() {
     const container = document.getElementById('particles');
+    container.innerHTML = '';
     const particleCount = window.innerWidth < 600 ? 30 : 50;
     
     for (let i = 0; i < particleCount; i++) {
@@ -716,13 +707,27 @@
     }
   }
 
+  // Touch Feedback Effekt
+  function createTouchFeedback(x, y) {
+    const feedback = document.createElement('div');
+    feedback.className = 'touch-feedback';
+    feedback.style.left = `${x}px`;
+    feedback.style.top = `${y}px`;
+    document.body.appendChild(feedback);
+    
+    // Nach der Animation entfernen
+    setTimeout(() => {
+      feedback.remove();
+    }, 600);
+  }
+
   // Intro starten
   function starteIntro() {
     document.getElementById("introScreen").style.display = "none";
     document.getElementById("setup").classList.remove("hidden");
     initParticles();
+    setupSessionTimeout();
     ladeSettings();
-    zeigeNamensEingabe();
   }
 
   // Namenseingabe anzeigen
@@ -743,8 +748,11 @@
       input.type = "text";
       input.placeholder = `Spieler ${i + 1}`;
       input.id = `spielerName${i}`;
-      if (localStorage.getItem(`spielerName${i}`)) {
-        input.value = localStorage.getItem(`spielerName${i}`);
+      
+      // Aus dem Session Storage laden
+      const savedName = localStorage.getItem(getSessionKey(`spielerName${i}`));
+      if (savedName) {
+        input.value = savedName;
       }
       
       const aktionenDiv = document.createElement('div');
@@ -814,10 +822,11 @@
 
     // Spielernamen sammeln
     const inputs = document.querySelectorAll('#namenContainer input');
-    inputs.forEach(input => {
-      const name = input.value || `Spieler ${namen.length + 1}`;
+    inputs.forEach((input, index) => {
+      const name = input.value || `Spieler ${index + 1}`;
       namen.push(name);
-      localStorage.setItem(`spielerName${namen.length - 1}`, name);
+      // Im Session Storage speichern
+      localStorage.setItem(getSessionKey(`spielerName${index}`), name);
     });
 
     // Spieler und Imposter initialisieren
@@ -879,9 +888,15 @@
   }
 
   // Touch-Events für Mobile
-  function startTouch(element) {
+  function startTouch(element, event) {
     if (!element.classList.contains("umgedreht")) {
       element.classList.add("angehoben");
+      
+      // Touch Feedback anzeigen
+      if (event.touches) {
+        const touch = event.touches[0];
+        createTouchFeedback(touch.clientX, touch.clientY);
+      }
     }
   }
 
@@ -980,48 +995,47 @@
       kategorie: document.getElementById("kategorie").value
     };
     
-    // Spielernamen speichern
-    const inputs = document.querySelectorAll('#namenContainer input');
-    inputs.forEach((input, index) => {
-      settings[`spielerName${index}`] = input.value;
-    });
+    // Im Session Storage speichern
+    localStorage.setItem(getSessionKey("settings"), JSON.stringify(settings));
     
-    localStorage.setItem("spywords_settings", JSON.stringify(settings));
+    // Session Timeout zurücksetzen
+    setupSessionTimeout();
   }
 
   // Einstellungen laden
   function ladeSettings() {
-    const data = JSON.parse(localStorage.getItem("spywords_settings"));
+    const data = JSON.parse(localStorage.getItem(getSessionKey("settings")));
     if (data) {
       document.getElementById("spielerAnzahl").value = data.spielerAnzahl;
       document.getElementById("imposterAnzahl").value = data.imposterAnzahl;
       document.getElementById("spielzeit").value = data.spielzeit;
       document.getElementById("kategorie").value = data.kategorie;
     }
-    
-    // Spielernamen laden
-    if (data) {
-      const inputs = document.querySelectorAll('#namenContainer input');
-      inputs.forEach((input, index) => {
-        if (data[`spielerName${index}`]) {
-          input.value = data[`spielerName${index}`];
-        }
-      });
-    }
+    zeigeNamensEingabe();
   }
 
   // Initialisierung
   document.addEventListener("DOMContentLoaded", function() {
+    // Session ID beim Laden setzen
+    sessionId = generateSessionId();
+    
     // Zufälliges Emoji für die erste Karte
     const randomEmoji = emojiSets.default[Math.floor(Math.random() * emojiSets.default.length)];
     if (document.querySelector(".karte-vorderseite .karten-icon")) {
       document.querySelector(".karte-vorderseite .karten-icon").textContent = randomEmoji;
     }
     
-    // Touch-Optimierungen für iOS
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-    window.addEventListener('resize', () => {
-      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    // Touch-Events für Buttons
+    document.querySelectorAll('button').forEach(button => {
+      button.addEventListener('touchstart', function(e) {
+        this.style.transform = 'translateY(1px)';
+        const touch = e.touches[0];
+        createTouchFeedback(touch.clientX, touch.clientY);
+      });
+      
+      button.addEventListener('touchend', function() {
+        this.style.transform = '';
+      });
     });
   });
 </script>
